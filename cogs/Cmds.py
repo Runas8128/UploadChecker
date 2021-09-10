@@ -38,9 +38,9 @@ class CmdCog(commands.Cog):
     
     @commands.command(name='삭제', aliases=['제거'])
     @commands.has_permissions(administrator=True)
-    async def CMD_Delete(self, ctx: commands.Context):
+    async def CMD_Delete(self, ctx: commands.Context, index: int=-1):
         await self.LogChannel.send(
-            f"Deleted Record Request - from {self.bot.get_user(manager.pop()).display_name}, now left: {len(manager.Left)}"
+            f"Deleted Record Request - from {self.bot.get_user(manager.pop(index)).display_name}, now left: {len(manager.Left)}"
         )
         await ctx.message.add_reaction('👌')
 

@@ -9,8 +9,8 @@ class Manager:
         self.Left.append(author.id)
         db['Left'] = self.Left
     
-    def pop(self):
-        var = self.Left.pop()
+    def pop(self, index:int):
+        var = self.Left.pop(index)
         db['Left'] = self.Left
         return var
     
