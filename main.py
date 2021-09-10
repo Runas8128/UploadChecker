@@ -3,13 +3,19 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix=['!'], intents=discord.Intents.all())
 
+cogs = ['Cmds', 'Events', 'Help']
+
 @bot.command()
 @commands.is_owner()
 async def reload(ctx: commands.Context, me: discord.User=None):
     if me == bot.user:
-        bot.unload_extension('MainCog')
-        bot.load_extension('MainCog')
+        for cog in cogs:
+            bot.unload_extension(f'cogs.{cog}')
+            bot.load_extension(f'cogs.{cog}')
         await ctx.send('reloaded')
 
-bot.load_extension('MainCog')
-bot.run('ODc5NzEwMDQ5NTkxNzc1Mjcy.YSTr1A.JLGow16XEirHjVvCLVtoFZIMTy0')
+for cog in cogs:
+    bot.load_extension(f'cogs.{cog}')
+
+from Common import TOKEN
+bot.run(TOKEN)
