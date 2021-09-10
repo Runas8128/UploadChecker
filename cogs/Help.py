@@ -30,3 +30,6 @@ class HelpCog(commands.Cog):
     @commands.command(name="도움말")
     async def Help(self, ctx: commands.Context):
         await ctx.send(embed=self.HelpEmbed)
+
+def setup(bot: commands.Bot):
+    bot.add_cog(HelpCog(bot))

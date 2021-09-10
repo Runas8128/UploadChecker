@@ -62,3 +62,6 @@ class EventCog(commands.Cog):
         if now().hour == 12:
             mention = self.Left.pop()
             await self.LogChannel.send(f"Deleted Record Request - from {mention}, now left: {len(self.Left)}")
+    
+def setup(bot: commands.Bot):
+    bot.add_check(EventCog(bot))
