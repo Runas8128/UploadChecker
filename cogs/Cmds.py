@@ -1,4 +1,5 @@
 from Common import *
+from Manager import manager
 
 class CmdCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -21,33 +22,26 @@ class CmdCog(commands.Cog):
     
     @commands.command(name='밀린양')
     async def CMD_LeftRequest(self, ctx: commands.Context):
-        embed = discord.Embed(title="밀린 양 임베드", description="귀찮아서 상위5개 하위5개만 보여드림")
-        
-        for i in range(0, 4+1):
-            embed.add_field(name=f"#{i+1}", value=self.Left[i], inline=True)
-        embed.add_field(name='↑ 곧 올라올거 / 최근 추가된거 ↓', value='​', inline=False)
-        for i in range(1, 5+1):
-            embed.add_field(name=f"#{i+1}", value=self.Left[-i], inline=True)
-        
-        await ctx.send(embed=embed)
+        await ctx.send(embed=manager.get(self.bot))
 
     @commands.command(name='추가')
     @commands.has_permissions(administrator=True)
-    async def CMD_Add(self, ctx: commands.Context, *user):
+    async def CMD_Add(self, ctx: commands.Context):
         try:
-            user: discord.User = await self.UserConverter.convert(ctx, ' '.join(user))
-            self.Left.append(user.mention)
-            await self.LogChannel.send(f"New Record Request - from {user.mention}, now left: {len(self.Left)}")
+            msg: discord.Message = ctx.message
+            for user in msg.mentions:
+                manager.add(user.mention)
+                await self.LogChannel.send(f"New Record Request - from {user.mention}, now left: {len(self.Left)}")
+            await ctx.message.add_reaction('👌')
         except (commands.errors.BadArgument, commands.errors.CommandError):
-            self.Left.append('Unknown: 관리자가 추가한 값입니다')
-            await self.LogChannel.send(f"New Record Request - from Unknown, now left: {len(self.Left)}")
-        await ctx.message.add_reaction('👌')
+            await ctx.send("사용법: !추가 (멘션)")
     
     @commands.command(name='삭제', aliases=['제거'])
     @commands.has_permissions(administrator=True)
     async def CMD_Delete(self, ctx: commands.Context):
-        mention = self.Left.pop()
-        await self.LogChannel.send(f"Deleted Record Request - from {mention}, now left: {len(self.Left)}")
+        await self.LogChannel.send(
+            f"Deleted Record Request - from {self.bot.get_user(manager.pop()).display_name}, now left: {len(manager.Left)}"
+        )
         await ctx.message.add_reaction('👌')
 
 def setup(bot: commands.Bot):

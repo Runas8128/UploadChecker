@@ -1,20 +1,9 @@
-from typing import List
 from Common import *
+from Manager import manager
 
 class EventCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.Left: List[int] = toGen(db['Left'])
-
-    def isRequest(self, message: discord.Message):
-        if 'https://drive.google.com/file/d/' in message.content:
-            return True
-
-        atts = message.attachments
-        if len(atts) == 0:
-            return False
-        else:
-            return ('.zip' in atts[0].filename) or ('.adofai' in atts[0].filename)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -34,7 +23,7 @@ class EventCog(commands.Cog):
 
         if msg.channel.id == 853948758177087498 and self.isRequest(msg):
             if msg.reference == None:
-                self.Left.append(msg.author.mention)
+                manager.add(msg.author)
                 await self.LogChannel.send(f"New Record Request - from {msg.author.mention}, now left: {len(self.Left)}")
                 await msg.add_reaction('👌')
             else:
@@ -58,10 +47,9 @@ class EventCog(commands.Cog):
 
     @tasks.loop(hours=1)
     async def Loop_Check(self):
-        db['Left'] = self.Left
         if now().hour == 12:
-            mention = self.Left.pop()
-            await self.LogChannel.send(f"Deleted Record Request - from {mention}, now left: {len(self.Left)}")
+            user = self.bot.get_user(manager.pop())
+            await self.LogChannel.send(f"Deleted Record Request - from {user.display_name}, now left: {len(self.Left)}")
     
 def setup(bot: commands.Bot):
     bot.add_check(EventCog(bot))
