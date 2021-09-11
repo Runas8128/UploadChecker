@@ -23,7 +23,7 @@ class EventCog(commands.Cog):
 
         if msg.channel.id == 853948758177087498 and self.isRequest(msg):
             if msg.reference == None:
-                manager.add(msg.author)
+                manager.add(msg.author.id)
                 await self.LogChannel.send(f"New Record Request - from {msg.author.mention}, now left: {len(self.Left)}")
                 await msg.add_reaction('👌')
             else:

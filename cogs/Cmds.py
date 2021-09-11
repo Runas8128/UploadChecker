@@ -30,7 +30,7 @@ class CmdCog(commands.Cog):
         try:
             msg: discord.Message = ctx.message
             for user in msg.mentions:
-                manager.add(user.mention)
+                manager.add(user.id)
                 await self.LogChannel.send(f"New Record Request - from {user.mention}, now left: {len(self.Left)}")
             await ctx.message.add_reaction('👌')
         except (commands.errors.BadArgument, commands.errors.CommandError):
@@ -42,6 +42,13 @@ class CmdCog(commands.Cog):
         await self.LogChannel.send(
             f"Deleted Record Request - from {self.bot.get_user(manager.pop(index)).display_name}, now left: {len(manager.Left)}"
         )
+        await ctx.message.add_reaction('👌')
+    
+    @commands.command(name='일괄추가')
+    @commands.has_permissions(administrator=True)
+    async def CMD_AddCollectively(self, ctx: commands.Context, *ids: int):
+        for id in ids:
+            manager.add(id)
         await ctx.message.add_reaction('👌')
 
 def setup(bot: commands.Bot):

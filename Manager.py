@@ -5,8 +5,8 @@ class Manager:
     def __init__(self):
         self.Left: List[int] = toGen(db['Left'])
     
-    def add(self, author: discord.User):
-        self.Left.append(author.id)
+    def add(self, id: int):
+        self.Left.append(id)
         db['Left'] = self.Left
     
     def pop(self, index:int):
