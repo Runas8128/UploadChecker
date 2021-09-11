@@ -37,7 +37,7 @@ class Manager:
             return None
     
     def get(self, bot: commands.Bot):
-        embed = discord.Embed(title="밀린 양 임베드", description="귀찮아서 상위5개 하위5개만 보여드림")
+        embed = discord.Embed(title="밀린 양 임베드", description=f"총 {len(self.Left)}개 남아있어요")
         
         for i in range(0, 4+1):
             user = bot.get_user(self.Left[i])
