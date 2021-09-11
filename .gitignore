@@ -2,3 +2,5 @@
 /__pycache__
 /tmp.py
 /Common.py
+cogs/Debug.py
+cogs/__pycache__

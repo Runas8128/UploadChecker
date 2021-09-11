@@ -19,7 +19,7 @@ class AdminCog(commands.Cog):
             msg: discord.Message = ctx.message
             for user in msg.mentions:
                 manager.add(user.id)
-                await self.LogChannel.send(f"New Record Request - from {user.mention}, now left: {len(self.Left)}")
+                await self.LogChannel.send(f"New Record Request - from {user.mention}, now left: {len(manager.Left)}")
             await ctx.message.add_reaction('👌')
         except (commands.errors.BadArgument, commands.errors.CommandError):
             await ctx.send("사용법: !추가 (멘션)")
@@ -38,3 +38,6 @@ class AdminCog(commands.Cog):
         for id in ids:
             manager.add(id)
         await ctx.message.add_reaction('👌')
+
+def setup(bot: commands.Bot):
+    bot.add_cog(AdminCog(bot))

@@ -18,16 +18,19 @@ def toGen(tmp):
 
 class Manager:
     def __init__(self):
-        self.Left: List[int] = toGen(db['Left'])
+        self.Left: List[int] = toGen(db['Left']) if db else []
     
     def add(self, id: int):
         self.Left.append(id)
         db['Left'] = self.Left
     
     def pop(self, index:int):
-        var = self.Left.pop(index)
-        db['Left'] = self.Left
-        return var
+        try:
+            var = self.Left.pop(index)
+            db['Left'] = self.Left
+            return var
+        except IndexError:
+            return None
     
     def get(self, bot: commands.Bot):
         embed = discord.Embed(title="밀린 양 임베드", description="귀찮아서 상위5개 하위5개만 보여드림")

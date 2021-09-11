@@ -60,8 +60,8 @@ class EventCog(commands.Cog):
     @tasks.loop(hours=1)
     async def Loop_Check(self):
         if now().hour == 12:
-            user = self.bot.get_user(manager.pop())
+            user = self.bot.get_user(manager.pop(0))
             await self.LogChannel.send(f"Deleted Record Request - from {user.display_name}, now left: {len(self.Left)}")
     
 def setup(bot: commands.Bot):
-    bot.add_check(EventCog(bot))
+    bot.add_cog(EventCog(bot))
