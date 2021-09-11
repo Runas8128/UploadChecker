@@ -63,9 +63,9 @@ class EventCog(commands.Cog):
             uid = manager.pop(0)
             user = self.bot.get_user(uid)
             if user:
-                await self.LogChannel.send(f"Deleted Record Request - from {user.display_name}, now left: {len(self.Left)}")
+                await self.LogChannel.send(f"Deleted Record Request - from {user.display_name}, now left: {len(manager.Left)}")
             elif uid:
-                await self.LogChannel.send(f"Deleted Record Request - from user id {uid}, now left: {len(self.Left)}")
+                await self.LogChannel.send(f"Deleted Record Request - from user id {uid}, now left: {len(manager.Left)}")
     
 def setup(bot: commands.Bot):
     bot.add_cog(EventCog(bot))
