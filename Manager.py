@@ -1,5 +1,20 @@
 from typing import List
-from Common import *
+
+import discord
+from discord.ext import commands
+
+from replit import db
+from replit.database.database import ObservedDict, ObservedList
+
+def toGen(tmp):
+    if isinstance(tmp, ObservedList):
+        tmp = list(tmp)
+        return [toGen(_Elem) for _Elem in tmp]
+    elif isinstance(tmp, ObservedDict):
+        tmp = dict(tmp)
+        return {key: toGen(tmp[key]) for key in tmp}
+    else:
+        return tmp
 
 class Manager:
     def __init__(self):

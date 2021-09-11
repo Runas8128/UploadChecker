@@ -3,7 +3,7 @@ from discord.ext import commands
 
 bot = commands.Bot(command_prefix=['!'], intents=discord.Intents.all())
 
-cogs = ['Cmds', 'Events', 'Help']
+cogs = ['Cmds', 'Events', 'Admin', 'Help']
 
 @bot.command()
 @commands.is_owner()

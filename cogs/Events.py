@@ -1,9 +1,20 @@
 from Common import *
-from Manager import manager
 
 class EventCog(commands.Cog):
+    LogChannel: discord.TextChannel
+    
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+    
+    def isRequest(self, message: discord.Message):
+        if 'https://drive.google.com/file/d/' in message.content:
+            return True
+
+        atts = message.attachments
+        if len(atts) == 0:
+            return False
+        else:
+            return ('.zip' in atts[0].filename) or ('.adofai' in atts[0].filename)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -12,6 +23,7 @@ class EventCog(commands.Cog):
             status=discord.Status.online,
             activity=discord.Game("!도움말")
         )
+
         self.LogChannel = self.bot.get_channel(881882849316323370)
 
         print('ready')
