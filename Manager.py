@@ -43,4 +43,8 @@ class Manager:
         
         return embed
     
+    def clear(self):
+        self.List = []
+        db['Left'] = self.Left
+    
 manager = Manager()

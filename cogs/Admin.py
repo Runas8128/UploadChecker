@@ -38,6 +38,12 @@ class AdminCog(commands.Cog):
         for id in ids:
             manager.add(id)
         await ctx.message.add_reaction('👌')
+    
+    @commands.command(name='초기화')
+    @commands.has_permissions(administrator=True)
+    async def CMD_Clear(self, ctx: commands.Context):
+        manager.clear()
+        await ctx.message.add_reaction('👌')
 
 def setup(bot: commands.Bot):
     bot.add_cog(AdminCog(bot))
