@@ -36,6 +36,7 @@ class AdminCog(commands.Cog):
             await self.LogChannel.send(f"Deleted Record Request - from {user.display_name}, now left: {len(manager.Left)}")
         elif uid:
             await self.LogChannel.send(f"Deleted Record Request - from user id {uid}, now left: {len(manager.Left)}")
+        await ctx.message.add_reaction('👌')
     
     @commands.command(name='일괄추가')
     @commands.has_permissions(administrator=True)
