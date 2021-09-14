@@ -1,6 +1,6 @@
-/workspace.code-workspace
-/__pycache__
-/tmp.py
-/Common.py
+*.code-workspace
+__pycache__
+tmp.py
+Common.py
 cogs/Debug.py
 cogs/__pycache__
